@@ -577,21 +577,32 @@ class EmojiPickerListEntry extends StatelessWidget {
           ? designVariables.contextMenuItemBg.withFadedAlpha(0.20)
           : Colors.transparent),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        child: Row(spacing: 4, children: [
-          if (glyph != null)
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: glyph),
-          Flexible(child: Text(label,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: 17,
-              height: 18 / 17,
-              color: designVariables.textMessage)))
-        ]),
-      ));
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: designVariables.contextMenuItemText.withFadedAlpha(0.15),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+            child: Row(spacing: 4, children: [
+              if (glyph != null)
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: glyph),
+              Flexible(child: Text(label,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 17,
+                  height: 18 / 17,
+                  color: designVariables.textMessage)))
+            ]),
+          ),
+        )));
   }
 }
 
@@ -842,7 +853,8 @@ class _ViewReactionsEmojiItem extends StatelessWidget {
     final emojiDisplay = store.emojiDisplayFor(
       emojiType: reactionWithVotes.reactionType,
       emojiCode: reactionWithVotes.emojiCode,
-      emojiName: emojiName);
+      emojiName: emojiName)
+      .resolve(store.userSettings);
     // (Not calling EmojiDisplay.resolve. For expediency, rather than design a
     // reasonable layout for [Emojiset.text], in this case we just override that
     // setting and show the emoji anyway.)
